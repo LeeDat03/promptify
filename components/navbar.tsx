@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +5,7 @@ import { Button } from "./ui/button";
 import UserDropDown from "./user-dropdown";
 
 const Navbar = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const loggedIn = true;
 
   return (
     <nav className="flex justify-between w-full my-3 items-center">
