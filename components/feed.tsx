@@ -1,7 +1,6 @@
 import React from "react";
 import PromptCard from "./prompt-card";
-
-// @apply mt-16 mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2;
+import SkeletonCard from "./loading/skeleton-card-prompt";
 
 const Feed = () => {
   return (
@@ -15,16 +14,11 @@ const Feed = () => {
         />
       </form>
 
-      <div className="space-y-6 py-8 xl:columns-3 sm:columns-2 sm:gap-6 mb-40">
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
-        <PromptCard />
+      <div className="grid grid-cols-1 xl:grid-cols-3 sm:grid-cols-2 gap-6 mb-40">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
       </div>
     </section>
   );

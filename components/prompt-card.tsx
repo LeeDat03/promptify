@@ -10,7 +10,7 @@ const PromptCard = () => {
   const [coppied, setCoppied] = useState(false);
 
   return (
-    <div className="md:w-[360px] w-full bg-white border-slate-300 border rounded-2xl p-6 pb-4 backdrop-blur-lg backdrop-filter h-fit break-inside-avoid">
+    <div className="prompt_card">
       <div className="flex justify-between">
         <Link href="/profile" className="flex relative items-center gap-4">
           <Image
