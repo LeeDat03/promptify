@@ -1,5 +1,12 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "./ui/button";
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { Session } from "next-auth";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
+import { signOut, useSession } from "next-auth/react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,34 +14,50 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import Link from "next/link";
+import { Button } from "./ui/button";
 
-const UserDropDown = () => {
+type ImageSrc = string | StaticImport;
+
+interface UserDropDownProps {
+  session: Session | null;
+}
+
+const UserDropDown = ({ session }: UserDropDownProps) => {
+  const handlerSignout = () => signOut();
+
   return (
     <div className="flex justify-center items-center gap-6">
       <div className="hidden md:flex justify-center items-center gap-6">
         <Button variant="primary" size="md" asChild>
           <Link href="/create-post">Create Post</Link>
         </Button>
-        <Button size="md" variant="outline">
+        <Button size="md" variant="outline" onClick={handlerSignout}>
           Sign out
         </Button>
       </div>
 
       {/* DESKTOP */}
       <Link href="profile" className="hidden md:block">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        </Avatar>
+        <Image
+          src={session?.user.image as ImageSrc}
+          alt="User avatar"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
       </Link>
 
       {/* MOBILE */}
       <div className="block md:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            </Avatar>
+            <Image
+              src={session?.user?.image as ImageSrc}
+              width={40}
+              height={40}
+              className="rounded-full"
+              alt="User Logo"
+            />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent>
@@ -47,7 +70,7 @@ const UserDropDown = () => {
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
-            <Button variant="primary" size="sm">
+            <Button variant="primary" size="sm" onClick={handlerSignout}>
               Sign out
             </Button>
           </DropdownMenuContent>

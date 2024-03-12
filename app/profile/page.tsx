@@ -1,7 +1,12 @@
-import React from "react";
+"use client";
+
+import { useSession } from "next-auth/react";
+import React, { ReactNode } from "react";
 
 const MyProfile = () => {
-  return <div>MyProfile</div>;
+  const { data: session } = useSession();
+
+  return <div>{JSON.stringify(session)}</div>;
 };
 
 export default MyProfile;

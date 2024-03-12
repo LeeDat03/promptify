@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import Provider from "@/components/provider";
 import "@/style/global.css";
 
 import { Metadata } from "next";
@@ -20,10 +21,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* Content */}
-        <main className="app">
-          <Navbar />
-          {children}
-        </main>
+        <Provider>
+          <main className="app">
+            <Navbar />
+            {children}
+          </main>
+        </Provider>
       </body>
     </html>
   );

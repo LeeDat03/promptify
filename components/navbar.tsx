@@ -1,11 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "./ui/button";
 import UserDropDown from "./user-dropdown";
+import { signIn, useSession } from "next-auth/react";
 
 const Navbar = () => {
-  const loggedIn = true;
+  const { data: session } = useSession();
 
   return (
     <nav className="flex justify-between w-full my-3 items-center">
@@ -16,10 +19,10 @@ const Navbar = () => {
         </div>
       </Link>
 
-      {loggedIn ? (
-        <UserDropDown />
+      {session?.user ? (
+        <UserDropDown session={session} />
       ) : (
-        <Button variant="primary" size="md">
+        <Button variant="primary" size="md" onClick={() => signIn()}>
           Sign in
         </Button>
       )}
