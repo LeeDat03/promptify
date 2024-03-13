@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Session } from "next-auth";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 import {
   DropdownMenu,
@@ -55,7 +55,7 @@ const UserDropDown = ({ session }: UserDropDownProps) => {
               src={session?.user?.image as ImageSrc}
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full cursor-pointer"
               alt="User Logo"
             />
           </DropdownMenuTrigger>

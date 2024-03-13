@@ -13,7 +13,7 @@ const userSchema = new Schema({
   image: String,
 });
 
-// TODO:
+// if not exist, create a new model
 const User = models.User || mongoose.model("User", userSchema);
 
 export default User;
