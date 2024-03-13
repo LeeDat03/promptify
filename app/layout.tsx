@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Provider from "@/components/provider";
+import { Toaster } from "@/components/ui/toaster";
 import "@/style/global.css";
 
 import { Metadata } from "next";
@@ -25,6 +26,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <main className="app">
             <Navbar />
             {children}
+            <Toaster />
           </main>
         </Provider>
       </body>

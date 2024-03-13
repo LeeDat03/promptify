@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        success: "#22c55e",
         danger: "#dc2626",
         "primary-orange": "#FF5722",
         border: "hsl(var(--border))",
