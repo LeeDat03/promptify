@@ -1,12 +1,27 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
+import Image from "next/image";
+import Link from "next/link";
 
-const PromptCard = () => {
+import { PromptProps } from "./promt-card-list";
+import { formatTag } from "@/lib/utils";
+
+interface PromptCardProps {
+  key?: number;
+  promptContent: PromptProps;
+}
+
+const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
+  const {
+    creator: { username, email, image },
+    prompt,
+    tag,
+  } = promptContent;
+
+  // TODO:
   const [coppied, setCoppied] = useState(false);
 
   return (
@@ -14,7 +29,7 @@ const PromptCard = () => {
       <div className="flex justify-between">
         <Link href="/profile" className="flex relative items-center gap-4">
           <Image
-            src="/logo.png"
+            src={image}
             width={30}
             height={30}
             alt="User Logo"
@@ -23,11 +38,9 @@ const PromptCard = () => {
 
           <div>
             <h3 className="font-satoshi font-bold text-xl tracking-normal">
-              Le Thanh Dat B21DCVT115
+              {username}
             </h3>
-            <p className="text-sm text-gray-400 font-semibold ">
-              leedat104517@gmail.com
-            </p>
+            <p className="text-sm text-gray-400 font-semibold ">{email}</p>
           </div>
         </Link>
 
@@ -41,17 +54,13 @@ const PromptCard = () => {
         </span>
       </div>
 
-      <p className="my-6 text-base font-inter">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-        pellentesque, odio vel ullamcorper tincidunt, nunc odio scelerisque
-        libero, et luctus odio odio sit amet libero. Nulla pellentesque, odio
-        vel ullamcorper tincidunt, nunc odio scelerisque libero, et luctus odio
-        odio sit amet libero.
-      </p>
+      <p className="my-6 text-base font-inter">{prompt}</p>
 
       <div>
-        <p className="text-sm text-slate-400">Mar 9, 2024</p>
-        <p className="blue_gradient text-sm cursor-pointer">#dev</p>
+        {/* <p className="text-sm text-slate-400">Mar 9, 2024</p> */}
+        <p className="blue_gradient inline-block text-sm cursor-pointer">
+          {formatTag(tag)}
+        </p>
       </div>
     </div>
   );
