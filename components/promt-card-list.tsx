@@ -18,7 +18,7 @@ export interface PromptProps {
 
 const PromptCardList = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean | undefined>(false);
+  const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
 
   useEffect(() => {
     setIsLoading(true);

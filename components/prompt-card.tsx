@@ -22,7 +22,16 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
   } = promptContent;
 
   // TODO:
-  const [coppied, setCoppied] = useState(false);
+  const [coppied, setCoppied] = useState<string | undefined>("");
+
+  const handleCopy = () => {
+    setCoppied(prompt);
+    navigator.clipboard.writeText(prompt);
+
+    setTimeout(() => {
+      setCoppied("");
+    }, 3000);
+  };
 
   return (
     <div className="prompt_card">
@@ -47,9 +56,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
 
         <span
           className="cursor-pointer bg-slate-100 w-7 h-7 rounded-full flex items-center justify-center text-primary-orange text-sm"
-          onClick={() => {
-            setCoppied((prev) => !prev);
-          }}
+          onClick={handleCopy}
         >
           {coppied ? <FaCheck /> : <FaRegCopy />}
         </span>
