@@ -34,6 +34,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
             height={30}
             alt="User Logo"
             className="rounded-full w-[30px] h-[30px] object-cover"
+            loading="lazy"
           />
 
           <div>

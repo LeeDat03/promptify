@@ -1,6 +1,13 @@
-const SkeletonCard = () => {
+import { cn } from "@/lib/utils";
+import React from "react";
+
+interface SkeletonCardProps {
+  height: number;
+}
+
+const SkeletonCard: React.FC<SkeletonCardProps> = ({ height }) => {
   return (
-    <div className="prompt_card animate-pulse">
+    <div className={`prompt_card animate-pulse`}>
       <div className="mb-5 flex items-start justify-between gap-5">
         <div className="flex flex-1  items-center justify-start gap-3">
           <svg
@@ -33,7 +40,7 @@ const SkeletonCard = () => {
         </div>
         <div className="flex w-full max-w-[400px] items-center">
           <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-300"></div>
-          <div className="ms-2 h-2.5 w-80 rounded-full bg-gray-400 dark:bg-gray-400"></div>
+          <div className="ms-2 h-2.5 w-40 rounded-full bg-gray-400 dark:bg-gray-400"></div>
           <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-300"></div>
         </div>
         <div className="flex w-full max-w-[480px] items-center">
@@ -48,7 +55,7 @@ const SkeletonCard = () => {
         </div>
         <div className="flex w-full max-w-[360px] items-center">
           <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-300"></div>
-          <div className="ms-2 h-2.5 w-80 rounded-full bg-gray-400 dark:bg-gray-400"></div>
+          <div className="ms-2 h-2.5 w-40 rounded-full bg-gray-400 dark:bg-gray-400"></div>
           <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-300"></div>
         </div>
       </div>

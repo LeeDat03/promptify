@@ -44,6 +44,7 @@ const UserDropDown = ({ session }: UserDropDownProps) => {
           width={40}
           height={40}
           className="rounded-full"
+          loading="lazy"
         />
       </Link>
 
@@ -57,6 +58,7 @@ const UserDropDown = ({ session }: UserDropDownProps) => {
               height={40}
               className="rounded-full cursor-pointer"
               alt="User Logo"
+              loading="lazy"
             />
           </DropdownMenuTrigger>
 

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import PromptCard from "./prompt-card";
-import SkeletonCard from "./loading/skeleton-card-prompt";
+import SkeletonCardList from "./loading/skeleton-card-list";
 
 export interface User {
   username: string;
@@ -18,7 +18,7 @@ export interface PromptProps {
 
 const PromptCardList = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
+  const [isLoading, setIsLoading] = useState<boolean | undefined>(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -33,16 +33,9 @@ const PromptCardList = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 sm:grid-cols-2 gap-6 mb-40">
+    <div className="xl:columns-3 sm:columns-2 mb-40 space-y-6 md:gap-6 ">
       {isLoading ? (
-        <>
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-        </>
+        <SkeletonCardList />
       ) : (
         prompts.map((prompt: PromptProps, index: number) => {
           return <PromptCard key={index} promptContent={prompt} />;
