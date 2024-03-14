@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 
 const CreatePrompt = () => {
   const { data: session } = useSession();
+
   const router = useRouter();
   const [submitting, setSubmitting] = useState<boolean | undefined>(false);
 

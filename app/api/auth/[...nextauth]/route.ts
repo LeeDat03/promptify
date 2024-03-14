@@ -1,5 +1,6 @@
 import User from "@/models/user";
 import { connectToDB } from "@/utils/db";
+import { DefaultSessionId } from "@/utils/types";
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -16,6 +17,16 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+    async session({ session }) {
+      const sessionUser = await User.findOne({ email: session.user.email });
+
+      if (sessionUser) {
+        (session as DefaultSessionId).user.id = sessionUser?._id.toString();
+      }
+
+      return session;
+    },
+
     async signIn({ user }) {
       try {
         // Cac buoc de signIn:

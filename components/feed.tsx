@@ -1,8 +1,23 @@
-import React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
+
 import PromptCard from "./prompt-card";
 import SkeletonCard from "./loading/skeleton-card-prompt";
 
 const Feed = () => {
+  const [prompts, setPrompts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await fetch("/api/prompt");
+      const data = await res.json();
+
+      setPrompts(data);
+    };
+    fetchPosts();
+  }, []);
+
   return (
     <section className="flex flex-col justify-center items-center md:gap-20 gap-12">
       <form className="flex justify-center items-center w-full md:w-3/5 mx-auto ">

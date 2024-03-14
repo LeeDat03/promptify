@@ -39,7 +39,7 @@ const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
         </p>
       </div>
 
-      {/* ##22c55e FORM */}
+      {/* FORM */}
       <div className="rounded-xl border border-gray-200 bg-white/20 backdrop-blur md:p-6 p-4 mb-10">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
