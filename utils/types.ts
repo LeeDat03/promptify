@@ -8,3 +8,16 @@ export interface DefaultSessionId extends DefaultSession {
     id?: string;
   };
 }
+
+export interface User {
+  _id: string;
+  username: string;
+  email: string;
+  image: string;
+}
+
+export interface PromptProps {
+  creator: User;
+  prompt: string;
+  tag: string;
+}

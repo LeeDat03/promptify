@@ -30,7 +30,7 @@ const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
   return (
     <div className="mt-14 self-start">
       <div className="mb-8">
-        <h2 className="blue_gradient md:text-6xl text-4xl font-satoshi font-bold text-destructive-foreground">
+        <h2 className="blue_gradient md:text-6xl text-4xl font-satoshi font-extrabold text-destructive-foreground">
           {type} Prompt
         </h2>
         <p className="desc">

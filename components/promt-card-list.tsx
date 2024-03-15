@@ -1,37 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
 
 import PromptCard from "./prompt-card";
 import SkeletonCardList from "./loading/skeleton-card-list";
+import { PromptProps } from "@/utils/types";
 
-export interface User {
-  username: string;
-  email: string;
-  image: string;
+interface PromptCardListProps {
+  prompts: PromptProps[];
+  isLoading: boolean;
 }
 
-export interface PromptProps {
-  creator: User;
-  prompt: string;
-  tag: string;
-}
-
-const PromptCardList = () => {
-  const [prompts, setPrompts] = useState<PromptProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchPosts = async () => {
-      const res = await fetch("/api/prompt");
-      const data = await res.json();
-
-      setPrompts(data);
-    };
-    fetchPosts();
-    setIsLoading(false);
-  }, []);
-
+const PromptCardList = ({ prompts, isLoading }: PromptCardListProps) => {
   return (
     <div className="xl:columns-3 sm:columns-2 mb-40 space-y-6 md:gap-6 ">
       {isLoading ? (

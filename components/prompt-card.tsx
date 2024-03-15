@@ -5,9 +5,11 @@ import { FaRegCopy } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-import { PromptProps } from "./promt-card-list";
 import { formatTag } from "@/lib/utils";
+import { DefaultSessionId, PromptProps } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
 interface PromptCardProps {
   key?: number;
@@ -16,10 +18,12 @@ interface PromptCardProps {
 
 const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
   const {
-    creator: { username, email, image },
+    creator: { username, email, image, _id: creatorId },
     prompt,
     tag,
   } = promptContent;
+  const { data: session } = useSession();
+  const router = useRouter();
 
   // TODO:
   const [coppied, setCoppied] = useState<string | undefined>("");
@@ -33,10 +37,23 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
     }, 3000);
   };
 
+  const handleCardClick = () => {
+    const userId = (session as DefaultSessionId)?.user?.id;
+    const profilePath =
+      userId === creatorId
+        ? "/profile"
+        : `/profile/${creatorId}?name=${username}`;
+
+    router.push(profilePath);
+  };
+
   return (
     <div className="prompt_card">
       <div className="flex justify-between">
-        <Link href="/profile" className="flex relative items-center gap-4">
+        <div
+          className="flex relative items-center gap-4 cursor-pointer"
+          onClick={handleCardClick}
+        >
           <Image
             src={image}
             width={30}
@@ -52,7 +69,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
             </h3>
             <p className="text-sm text-gray-400 font-semibold ">{email}</p>
           </div>
-        </Link>
+        </div>
 
         <span
           className="cursor-pointer bg-slate-100 w-7 h-7 rounded-full flex items-center justify-center text-primary-orange text-sm"

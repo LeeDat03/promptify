@@ -37,7 +37,7 @@ const UserDropDown = ({ session }: UserDropDownProps) => {
       </div>
 
       {/* DESKTOP */}
-      <Link href="profile" className="hidden md:block">
+      <Link href="/profile" className="hidden md:block">
         <Image
           src={session?.user.image as ImageSrc}
           alt="User avatar"
