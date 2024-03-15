@@ -15,15 +15,15 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetchPromptById = async () => {
+      setIsLoading(true);
       const res = await fetch(`/api/users/${userId}/post`);
       const data = await res.json();
       setPrompts(data);
+      setIsLoading(false);
     };
 
     if (userId) {
-      setIsLoading(true);
       fetchPromptById();
-      setIsLoading(false);
     }
   }, [userId]);
 

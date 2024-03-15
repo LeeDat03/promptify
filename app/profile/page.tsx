@@ -4,7 +4,7 @@ import Profile from "@/components/profile";
 import { DefaultSessionId, PromptProps } from "@/utils/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const MyProfile = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);
@@ -18,21 +18,50 @@ const MyProfile = () => {
     }
   }, [session, router]);
 
+  // useEffect(() => {
+  //   const fetchPromptById = async () => {
+  //     setIsLoading(true);
+  //     const res = await fetch(
+  //       `/api/users/${(session as DefaultSessionId)?.user.id}/post`
+  //     );
+  //     const data = await res.json();
+  //     setPrompts(data);
+  //     setIsLoading(false);
+  //   };
+
+  //   if (session?.user) {
+  //     fetchPromptById();
+  //   }
+  // }, [session]);
+
   useEffect(() => {
+    let isMounted = true; // Flag to track component mount status
+
     const fetchPromptById = async () => {
-      const res = await fetch(
-        `/api/users/${(session as DefaultSessionId)?.user.id}/post`
-      );
-      const data = await res.json();
-      setPrompts(data);
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `/api/users/${(session as DefaultSessionId)?.user.id}/post`
+        );
+        const data = await res.json();
+        if (isMounted) {
+          setPrompts(data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
     };
 
-    if (session?.user) {
-      setIsLoading(true);
+    if (session?.user && prompts.length === 0) {
       fetchPromptById();
-      setIsLoading(false);
     }
-  }, [session]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [session, prompts]);
 
   return (
     <Profile

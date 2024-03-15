@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 
 import { formatTag } from "@/lib/utils";
 import { DefaultSessionId, PromptProps } from "@/utils/types";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 
 interface PromptCardProps {
   key?: number;
@@ -24,6 +25,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
   } = promptContent;
   const { data: session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
 
   // TODO:
   const [coppied, setCoppied] = useState<string | undefined>("");
@@ -51,7 +53,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
     <div className="prompt_card">
       <div className="flex justify-between">
         <div
-          className="flex relative items-center gap-4 cursor-pointer"
+          className="flex relative items-center gap-2 md:gap-4  cursor-pointer"
           onClick={handleCardClick}
         >
           <Image
@@ -87,6 +89,24 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
           {formatTag(tag)}
         </p>
       </div>
+
+      {(session as DefaultSessionId)?.user.id === creatorId &&
+        pathname === "/profile" && (
+          <div className="text-end space-x-4 mt-3 border-t-2 border-t-slate-500 pt-2">
+            <Button
+              size="sm"
+              className="bg-green-400 text-white rounded-lg hover:bg-green-500 "
+            >
+              Edit
+            </Button>
+            <Button
+              size="sm"
+              className="bg-red-400 text-white rounded-lg hover:bg-red-500 "
+            >
+              Delete
+            </Button>
+          </div>
+        )}
     </div>
   );
 };

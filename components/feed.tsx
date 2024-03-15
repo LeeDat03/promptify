@@ -10,15 +10,16 @@ const Feed = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchPosts = async () => {
+      setIsLoading(true);
       const res = await fetch("/api/prompt");
       const data = await res.json();
 
       setPrompts(data);
+      setIsLoading(false);
     };
+
     fetchPosts();
-    setIsLoading(false);
   }, []);
 
   return (
