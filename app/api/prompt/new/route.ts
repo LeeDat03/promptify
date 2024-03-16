@@ -12,7 +12,6 @@ export const POST = async (req: NextRequest) => {
       tag,
       creator: userId,
     });
-    console.log(newPrompt);
     await newPrompt.save();
 
     return new Response(JSON.stringify(newPrompt), { status: 201 });

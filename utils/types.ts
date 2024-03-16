@@ -17,6 +17,7 @@ export interface User {
 }
 
 export interface PromptProps {
+  _id: string;
   creator: User;
   prompt: string;
   tag: string;

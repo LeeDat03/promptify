@@ -15,22 +15,39 @@ import {
 } from "./ui/form";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 interface FormPropmptProps {
   type: "Create" | "Edit";
   submitting: boolean | undefined;
   onSubmit: (data: z.infer<typeof FormSchema>) => void;
+  curValue: z.infer<typeof FormSchema>;
 }
 
-const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
+const FormPrompt = ({
+  submitting,
+  onSubmit,
+  type,
+  curValue = { prompt: "", tag: "" },
+}: FormPropmptProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      prompt: curValue.prompt,
+      tag: curValue.tag,
+    },
   });
+
+  const router = useRouter();
+
+  const handleCancel = () => {
+    router.push("/");
+  };
 
   return (
     <div className="mt-14 self-start">
       <div className="mb-8">
-        <h2 className="blue_gradient md:text-6xl text-4xl font-satoshi font-extrabold text-destructive-foreground">
+        <h2 className="blue_gradient md:text-6xl text-4xl font-satoshi font-extrabold text-destructive-foreground pb-2">
           {type} Prompt
         </h2>
         <p className="desc">
@@ -54,8 +71,8 @@ const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
                       <Textarea
                         placeholder="Write your prompt here..."
                         className="h-[200px]"
-                        {...field}
                         disabled={submitting}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -77,8 +94,8 @@ const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
                       <Textarea
                         placeholder="Your tag help people find your prompt..."
                         className="h-22"
-                        {...field}
                         disabled={submitting}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -93,6 +110,7 @@ const FormPrompt = ({ submitting, onSubmit, type }: FormPropmptProps) => {
                 variant="outline"
                 size="md"
                 disabled={submitting}
+                onClick={handleCancel}
               >
                 Cancel
               </Button>

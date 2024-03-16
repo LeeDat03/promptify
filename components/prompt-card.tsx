@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import Image from "next/image";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 import { formatTag } from "@/lib/utils";
@@ -22,6 +21,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
     creator: { username, email, image, _id: creatorId },
     prompt,
     tag,
+    _id: promptId,
   } = promptContent;
   const { data: session } = useSession();
   const router = useRouter();
@@ -47,6 +47,10 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
         : `/profile/${creatorId}?name=${username}`;
 
     router.push(profilePath);
+  };
+
+  const handleCardEdit = () => {
+    router.push(`/update-post?id=${promptId}`);
   };
 
   return (
@@ -96,6 +100,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
             <Button
               size="sm"
               className="bg-green-400 text-white rounded-lg hover:bg-green-500 "
+              onClick={handleCardEdit}
             >
               Edit
             </Button>

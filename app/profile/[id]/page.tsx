@@ -11,6 +11,7 @@ const UserProfile = () => {
 
   const pathname = usePathname();
   const userName = useSearchParams().get("name");
+
   const userId = pathname.split("/")[2];
 
   useEffect(() => {
