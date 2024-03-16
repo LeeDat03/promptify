@@ -1,10 +1,11 @@
 "use client";
 
-import Profile from "@/components/profile";
-import { DefaultSessionId, PromptProps } from "@/utils/types";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+
+import { DefaultSessionId, PromptProps } from "@/utils/types";
+import Profile from "@/components/profile";
 
 const MyProfile = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);
@@ -17,22 +18,6 @@ const MyProfile = () => {
       router.push("/");
     }
   }, [session, router]);
-
-  // useEffect(() => {
-  //   const fetchPromptById = async () => {
-  //     setIsLoading(true);
-  //     const res = await fetch(
-  //       `/api/users/${(session as DefaultSessionId)?.user.id}/post`
-  //     );
-  //     const data = await res.json();
-  //     setPrompts(data);
-  //     setIsLoading(false);
-  //   };
-
-  //   if (session?.user) {
-  //     fetchPromptById();
-  //   }
-  // }, [session]);
 
   useEffect(() => {
     let isMounted = true; // Flag to track component mount status
@@ -63,12 +48,36 @@ const MyProfile = () => {
     };
   }, [session, prompts]);
 
+  const handleCardEdit = (id: string) => {
+    router.push(`/update-post?id=${id}`);
+  };
+
+  const handleCardDelete = async (id: string) => {
+    const hasConfirmed = confirm(
+      "Are you sure you want to delete this prompt?"
+    );
+
+    if (!hasConfirmed) return;
+
+    try {
+      await fetch(`/api/prompt/${id}`, {
+        method: "DELETE",
+      });
+      const filterPrompt = prompts.filter((prompt) => prompt._id !== id);
+      setPrompts(filterPrompt);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Profile
       name={`Hello, ${(session as DefaultSessionId)?.user.name}`}
       desc="Welcome back to your personalized profile page!"
       prompts={prompts}
       isLoading={isLoading}
+      onCardEdit={handleCardEdit}
+      onCardDelete={handleCardDelete}
     />
   );
 };

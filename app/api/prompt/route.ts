@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
 import Prompt from "@/models/prompt";
 import { connectToDB } from "@/utils/db";
 

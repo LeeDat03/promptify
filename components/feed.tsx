@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { PromptProps } from "@/utils/types";
 import PromptCardList from "./promt-card-list";
-
-import { useEffect, useState } from "react";
 
 const Feed = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);

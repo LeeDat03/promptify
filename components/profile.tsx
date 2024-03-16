@@ -1,4 +1,3 @@
-import React from "react";
 import PromptCardList from "./promt-card-list";
 import { PromptProps } from "@/utils/types";
 
@@ -7,6 +6,8 @@ interface ProfileProps {
   desc: string;
   prompts: PromptProps[];
   isLoading: boolean;
+  onCardEdit: (id: string) => void;
+  onCardDelete: (id: string) => void;
 }
 
 const Profile: React.FC<ProfileProps> = ({
@@ -14,6 +15,8 @@ const Profile: React.FC<ProfileProps> = ({
   desc,
   isLoading,
   prompts,
+  onCardEdit,
+  onCardDelete,
 }) => {
   return (
     <div className="mt-14 self-start">
@@ -24,7 +27,12 @@ const Profile: React.FC<ProfileProps> = ({
         <p className="desc">{desc}</p>
       </div>
 
-      <PromptCardList prompts={prompts} isLoading={isLoading} />
+      <PromptCardList
+        prompts={prompts}
+        isLoading={isLoading}
+        onCardEdit={onCardEdit}
+        onCardDelete={onCardDelete}
+      />
     </div>
   );
 };

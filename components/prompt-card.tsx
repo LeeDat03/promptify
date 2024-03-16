@@ -1,33 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaRegCopy } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa6";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { formatTag } from "@/lib/utils";
 import { DefaultSessionId, PromptProps } from "@/utils/types";
-import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 
 interface PromptCardProps {
   key?: number;
   promptContent: PromptProps;
+  onCardEdit: (id: string) => void;
+  onCardDelete: (id: string) => void;
 }
 
-const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
+const PromptCard: React.FC<PromptCardProps> = ({
+  promptContent,
+  onCardEdit,
+  onCardDelete,
+}) => {
   const {
     creator: { username, email, image, _id: creatorId },
     prompt,
     tag,
     _id: promptId,
   } = promptContent;
+
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
-  // TODO:
   const [coppied, setCoppied] = useState<string | undefined>("");
 
   const handleCopy = () => {
@@ -47,10 +54,6 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
         : `/profile/${creatorId}?name=${username}`;
 
     router.push(profilePath);
-  };
-
-  const handleCardEdit = () => {
-    router.push(`/update-post?id=${promptId}`);
   };
 
   return (
@@ -100,13 +103,14 @@ const PromptCard: React.FC<PromptCardProps> = ({ promptContent }) => {
             <Button
               size="sm"
               className="bg-green-400 text-white rounded-lg hover:bg-green-500 "
-              onClick={handleCardEdit}
+              onClick={() => onCardEdit(promptId)}
             >
               Edit
             </Button>
             <Button
               size="sm"
               className="bg-red-400 text-white rounded-lg hover:bg-red-500 "
+              onClick={() => onCardDelete(promptId)}
             >
               Delete
             </Button>

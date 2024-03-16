@@ -44,3 +44,17 @@ export const PATCH = async (
     return new Response("Fail to update prompt!", { status: 500 });
   }
 };
+
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  try {
+    await connectToDB();
+    await Prompt.findOneAndDelete({ _id: params.id });
+
+    return new Response("Prompt deleted!", { status: 200 });
+  } catch {
+    return new Response("Fail to delete prompt!", { status: 500 });
+  }
+};
