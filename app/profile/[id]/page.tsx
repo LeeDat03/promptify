@@ -1,9 +1,10 @@
 "use client";
 
-import Profile from "@/components/profile";
-import { PromptProps } from "@/utils/types";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
+import Profile from "@/components/profile";
+import { PromptProps } from "@/utils/types";
 
 const UserProfile = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);

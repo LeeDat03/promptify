@@ -6,8 +6,8 @@ interface ProfileProps {
   desc: string;
   prompts: PromptProps[];
   isLoading: boolean;
-  onCardEdit: (id: string) => void;
-  onCardDelete: (id: string) => void;
+  onCardEdit?: (id: string) => void;
+  onCardDelete?: (id: string) => void;
 }
 
 const Profile: React.FC<ProfileProps> = ({

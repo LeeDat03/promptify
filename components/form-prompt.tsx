@@ -21,7 +21,7 @@ interface FormPropmptProps {
   type: "Create" | "Edit";
   submitting: boolean | undefined;
   onSubmit: (data: z.infer<typeof FormSchema>) => void;
-  curValue: z.infer<typeof FormSchema>;
+  curValue?: z.infer<typeof FormSchema>;
 }
 
 const FormPrompt = ({

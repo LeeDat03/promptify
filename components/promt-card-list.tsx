@@ -5,8 +5,8 @@ import SkeletonCardList from "./loading/skeleton-card-list";
 interface PromptCardListProps {
   prompts: PromptProps[];
   isLoading: boolean;
-  onCardEdit: (id: string) => void;
-  onCardDelete: (id: string) => void;
+  onCardEdit?: (id: string) => void;
+  onCardDelete?: (id: string) => void;
 }
 
 const PromptCardList = ({

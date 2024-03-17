@@ -15,8 +15,8 @@ import { Button } from "./ui/button";
 interface PromptCardProps {
   key?: number;
   promptContent: PromptProps;
-  onCardEdit: (id: string) => void;
-  onCardDelete: (id: string) => void;
+  onCardEdit?: (id: string) => void;
+  onCardDelete?: (id: string) => void;
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({
@@ -103,14 +103,14 @@ const PromptCard: React.FC<PromptCardProps> = ({
             <Button
               size="sm"
               className="bg-green-400 text-white rounded-lg hover:bg-green-500 "
-              onClick={() => onCardEdit(promptId)}
+              onClick={() => onCardEdit && onCardEdit(promptId)}
             >
               Edit
             </Button>
             <Button
               size="sm"
               className="bg-red-400 text-white rounded-lg hover:bg-red-500 "
-              onClick={() => onCardDelete(promptId)}
+              onClick={() => onCardDelete && onCardDelete(promptId)}
             >
               Delete
             </Button>

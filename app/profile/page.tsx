@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { DefaultSessionId, PromptProps } from "@/utils/types";
 import Profile from "@/components/profile";
+import { toast } from "@/components/ui/use-toast";
 
 const MyProfile = () => {
   const [prompts, setPrompts] = useState<PromptProps[]>([]);
@@ -62,6 +63,10 @@ const MyProfile = () => {
     try {
       await fetch(`/api/prompt/${id}`, {
         method: "DELETE",
+      });
+      toast({
+        description: "Prompt deleted!",
+        variant: "success",
       });
       const filterPrompt = prompts.filter((prompt) => prompt._id !== id);
       setPrompts(filterPrompt);
