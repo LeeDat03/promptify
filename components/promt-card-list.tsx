@@ -7,6 +7,7 @@ interface PromptCardListProps {
   isLoading: boolean;
   onCardEdit?: (id: string) => void;
   onCardDelete?: (id: string) => void;
+  onChangeSearchText?: (id: string) => void;
 }
 
 const PromptCardList = ({
@@ -14,6 +15,7 @@ const PromptCardList = ({
   isLoading,
   onCardEdit,
   onCardDelete,
+  onChangeSearchText,
 }: PromptCardListProps) => {
   return (
     <div className="xl:columns-3 sm:columns-2 mb-40 space-y-6 md:gap-6 ">
@@ -27,6 +29,7 @@ const PromptCardList = ({
               promptContent={prompt}
               onCardEdit={onCardEdit}
               onCardDelete={onCardDelete}
+              onChangeSearchText={onChangeSearchText}
             />
           );
         })

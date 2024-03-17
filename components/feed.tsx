@@ -10,7 +10,7 @@ import PromptCardList from "./promt-card-list";
 import { PromptProps } from "@/utils/types";
 
 const Feed = () => {
-  const [searchText, setSearchText] = useState<string | undefined>("");
+  const [searchText, setSearchText] = useState<string>("");
   let deboucedValue = useDebounce(searchText);
 
   const searchValue = useSearchParams().get("search");
@@ -45,7 +45,6 @@ const Feed = () => {
       }
 
       const data = await res.json();
-      console.log(data);
 
       setPrompts(data);
       setIsLoading(false);
@@ -53,6 +52,10 @@ const Feed = () => {
 
     fetchPosts();
   }, [searchValue]);
+
+  const handleSearchText = (value: string) => {
+    setSearchText(value);
+  };
 
   return (
     <section className="flex flex-col justify-center items-center md:gap-20 gap-12">
@@ -62,11 +65,16 @@ const Feed = () => {
           placeholder="Search for a tag or some keywords..."
           required
           className="block w-full rounded-xl py-2.5 pl-5 pr-12 font-satoshi text-sm shadow-lg text-gray-700 font-normal border border-gray-300 bg-white focus:outline-none focus:ring-1 focus:ring-gray-500"
-          onChange={(e) => setSearchText(e.target.value)}
+          value={searchText}
+          onChange={(e) => handleSearchText(e.target.value)}
         />
       </form>
 
-      <PromptCardList prompts={prompts} isLoading={isLoading} />
+      <PromptCardList
+        prompts={prompts}
+        isLoading={isLoading}
+        onChangeSearchText={handleSearchText}
+      />
     </section>
   );
 };

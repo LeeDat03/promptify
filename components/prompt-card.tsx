@@ -1,12 +1,11 @@
 "use client";
-
 import { FaCheck } from "react-icons/fa6";
 import { FaRegCopy } from "react-icons/fa6";
 
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { formatTag } from "@/lib/utils";
 import { DefaultSessionId, PromptProps } from "@/utils/types";
@@ -17,12 +16,14 @@ interface PromptCardProps {
   promptContent: PromptProps;
   onCardEdit?: (id: string) => void;
   onCardDelete?: (id: string) => void;
+  onChangeSearchText?: (id: string) => void;
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({
   promptContent,
   onCardEdit,
   onCardDelete,
+  onChangeSearchText,
 }) => {
   const {
     creator: { username, email, image, _id: creatorId },
@@ -54,6 +55,14 @@ const PromptCard: React.FC<PromptCardProps> = ({
         : `/profile/${creatorId}?name=${username}`;
 
     router.push(profilePath);
+  };
+
+  const handleTagClick = (value: string) => {
+    const valueFormat = value.slice(1);
+
+    if (onChangeSearchText) {
+      onChangeSearchText(valueFormat);
+    }
   };
 
   return (
@@ -93,7 +102,18 @@ const PromptCard: React.FC<PromptCardProps> = ({
       <div>
         {/* <p className="text-sm text-slate-400">Mar 9, 2024</p> */}
         <p className="blue_gradient inline-block text-sm cursor-pointer">
-          {formatTag(tag)}
+          {formatTag(tag).map((t, index) => {
+            return (
+              <span
+                key={index}
+                onClick={(e) =>
+                  handleTagClick(e.currentTarget.textContent as string)
+                }
+              >
+                {t}{" "}
+              </span>
+            );
+          })}
         </p>
       </div>
 

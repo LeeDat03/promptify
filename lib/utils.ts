@@ -9,6 +9,5 @@ export function formatTag(tag: string) {
   return tag
     .replaceAll(",", "")
     .split(" ")
-    .map((t) => `#${t}`)
-    .join(" ");
+    .map((t) => `#${t}`);
 }
