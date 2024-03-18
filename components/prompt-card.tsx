@@ -90,7 +90,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
         </div>
 
         <span
-          className="cursor-pointer bg-slate-100 w-7 h-7 rounded-full flex items-center justify-center text-primary-orange text-sm"
+          className="cursor-pointer bg-slate-100 dark:bg-[#303030] w-8 h-8 rounded-full flex items-center justify-center text-primary-orange text-sm"
           onClick={handleCopy}
         >
           {coppied ? <FaCheck /> : <FaRegCopy />}
@@ -101,7 +101,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
 
       <div>
         {/* <p className="text-sm text-slate-400">Mar 9, 2024</p> */}
-        <p className="blue_gradient inline-block text-sm cursor-pointer">
+        <p className="dark:text-sky-400 text-sky-600 inline-block text-sm cursor-pointer">
           {formatTag(tag).map((t, index) => {
             return (
               <span

@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Provider from "@/components/provider";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import "@/style/global.css";
 
@@ -22,13 +23,20 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* Content */}
-        <Provider>
-          <main className="app">
-            <Navbar />
-            {children}
-            <Toaster />
-          </main>
-        </Provider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Provider>
+            <main className="app">
+              <Navbar />
+              {children}
+              <Toaster />
+            </main>
+          </Provider>
+        </ThemeProvider>
       </body>
     </html>
   );

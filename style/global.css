@@ -19,14 +19,16 @@
 }
 
 .main:before {
-  /* background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%); */
-  /* background-color: rgb(10, 10, 10); */
   position: absolute;
   content: "";
   z-index: 2;
   width: 100%;
   height: 100%;
   top: 0;
+}
+
+.dark .main:before {
+  background-color: #212121;
 }
 
 .main:after {
@@ -63,7 +65,10 @@
   filter: blur(100px) saturate(150%);
   top: 80px;
   opacity: 0.5;
-  /* opacity: 0.15; */
+}
+
+.dark .gradient {
+  opacity: 0.2;
 }
 
 @media screen and (max-width: 640px) {
@@ -96,7 +101,7 @@
 }
 
 .head_text {
-  @apply mt-5 text-6xl font-extrabold leading-[1.15] text-black sm:text-7xl;
+  @apply mt-5 text-6xl font-extrabold leading-[1.15] text-black sm:text-7xl dark:text-neutral-100;
 }
 
 .orange_gradient {
@@ -108,11 +113,11 @@
 }
 
 .blue_gradient {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent dark:from-blue-500 dark:to-cyan-500;
 }
 
 .desc {
-  @apply mt-5 text-lg text-gray-600 sm:text-xl max-w-2xl;
+  @apply mt-5 text-lg text-gray-600 sm:text-xl max-w-2xl dark:text-slate-100;
 }
 
 .search_input {
@@ -160,7 +165,7 @@
 
 /* PromptCard Component */
 .prompt_card {
-  @apply w-full break-inside-avoid rounded-2xl border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px];
+  @apply w-full break-inside-avoid rounded-2xl border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] dark:bg-[#424242] dark:border-gray-500;
 }
 
 .flex-center {
