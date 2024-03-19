@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import PromptCardList from "./promt-card-list";
 import { PromptProps } from "@/utils/types";
+import SkeletonCardList from "./loading/skeleton-card-list";
 
 const Feed = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -56,6 +57,10 @@ const Feed = () => {
   const handleSearchText = (value: string) => {
     setSearchText(value);
   };
+
+  if (isLoading) {
+    <SkeletonCardList />;
+  }
 
   return (
     <section className="flex flex-col justify-center items-center md:gap-20 gap-12">

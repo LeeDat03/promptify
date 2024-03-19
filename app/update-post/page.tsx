@@ -1,13 +1,13 @@
 "use client";
 
 import { z } from "zod";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import FormPrompt from "@/components/form-prompt";
 import { FormSchema } from "@/models/form";
 import { toast } from "@/components/ui/use-toast";
+import Spinner from "@/components/loading/spinner";
 
 const EditPrompt = () => {
   const promptId = useSearchParams().get("id");
@@ -60,9 +60,8 @@ const EditPrompt = () => {
     }
   };
 
-  // TODO:
   if (isLoading) {
-    return <p>Loading....</p>;
+    return <Spinner />;
   }
 
   return (

@@ -1,4 +1,6 @@
 import Feed from "@/components/feed";
+import SkeletonCardList from "@/components/loading/skeleton-card-list";
+import { Suspense } from "react";
 
 const page = () => {
   return (
@@ -14,7 +16,9 @@ const page = () => {
         </p>
       </div>
 
-      <Feed />
+      <Suspense fallback={<SkeletonCardList />}>
+        <Feed />
+      </Suspense>
     </section>
   );
 };

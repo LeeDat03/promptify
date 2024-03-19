@@ -57,7 +57,7 @@ const FormPrompt = ({
       </div>
 
       {/* FORM */}
-      <div className="rounded-xl border border-gray-200 bg-white/20 backdrop-blur md:p-6 p-4 mb-10 dark:bg-[#424242]">
+      <div className="rounded-xl border border-gray-200 bg-white/20 backdrop-blur md:p-6 p-4 mb-10 dark:bg-[#424242] dark:border-gray-500">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
@@ -70,7 +70,7 @@ const FormPrompt = ({
                     <FormControl>
                       <Textarea
                         placeholder="Write your prompt here..."
-                        className="h-[200px] rounded-xl dark:text-slate-50 dark:bg-[#222222]"
+                        className="h-[200px] rounded-xl"
                         disabled={submitting}
                         {...field}
                       />
@@ -93,7 +93,7 @@ const FormPrompt = ({
                     <FormControl>
                       <Textarea
                         placeholder="Your tag help people find your prompt..."
-                        className="h-22 rounded-xl dark:text-slate-50 dark:bg-[#222222]"
+                        className="h-22 rounded-xl "
                         disabled={submitting}
                         {...field}
                       />
