@@ -1,4 +1,4 @@
-# <img src="./public/logo.png" alt="logo" style="width:20px; height:20px"/> PROMPTIFY - AI SHARING PROMPT
+# <img src="./public/logo.png" alt="logo" style="width:40px; height:40px"/> PROMPTIFY - AI SHARING PROMPT
 
 Welcome to Promptify, an application that allows users to store and share AI-generated prompts with everyone! Whether you're a writer seeking inspiration, a coder looking for coding challenges, or simply someone who enjoys creative prompts, AI Prompt Hub has you covered.
 
