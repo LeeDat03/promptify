@@ -1,6 +1,6 @@
 # <img src="./public/logo.png" alt="logo" style="width:40px; height:40px"/> PROMPTIFY - AI SHARING PROMPT
 
-Welcome to Promptify, an application that allows users to store and share AI-generated prompts with everyone! Whether you're a writer seeking inspiration, a coder looking for coding challenges, or simply someone who enjoys creative prompts, AI Prompt Hub has you covered.
+Welcome to Promptify, an application that allows users to store and share AI-generated prompts with everyone! Whether you're a writer seeking inspiration, a coder looking for coding challenges, or simply someone who enjoys creative prompts, Promptify has you covered.
 
 ## ✨ Features
 
@@ -32,30 +32,30 @@ To get started with AI Prompt Hub, follow these steps:
 1. Clone the repository:
 
 ```bash
-  git clone https://github.com/your-username/ai-prompt-hub.git
+  git clone https://github.com/LeeDat03/promptify.git
 ```
 
-Navigate to the project directory:
+2. Navigate to the project directory:
 
 ```bash
-  cd ai-prompt-hub
+  cd promptify
 ```
 
-Install dependencies:
+3. Install dependencies:
 
 ```bash
   npm install
 ```
 
-Set up environment variables:
+4. Set up environment variables:
 
 - Create a .env.local file in the root directory.
 - Add environment variables for MongoDB connection string, Shadcn API key, and any other required variables.
 
-Start the development server:
+5. Start the development server:
 
 ```bash
-  npm install
+  npm run dev
 ```
 
 Open your browser and visit http://localhost:3000 to view the app.
