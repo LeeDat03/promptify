@@ -27,7 +27,7 @@ Welcome to Promptify, an application that allows users to store and share AI-gen
 
 ## Getting Started
 
-To get started with AI Prompt Hub, follow these steps:
+To get started with Promptify, follow these steps:
 
 1. Clone the repository:
 

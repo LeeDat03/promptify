@@ -10,11 +10,11 @@ export const GET = async (req: NextRequest) => {
     let prompts;
 
     if (!searchValue) {
-      prompts = await Prompt.find({}).populate("creator");
+      prompts = await Prompt.find({}).populate("creator").sort({ date: -1 });
     } else {
-      prompts = await Prompt.find({ $text: { $search: searchValue } }).populate(
-        "creator"
-      );
+      prompts = await Prompt.find({ $text: { $search: searchValue } })
+        .populate("creator")
+        .sort({ date: -1 });
     }
 
     return new Response(JSON.stringify(prompts), { status: 200 });

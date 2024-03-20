@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatTag(tag: string) {
   return tag
     .replaceAll(",", "")
+    .replaceAll("#", "")
     .split(" ")
     .map((t) => `#${t}`);
 }
