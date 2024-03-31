@@ -1,4 +1,5 @@
 "use client";
+
 import { FaCheck } from "react-icons/fa6";
 import { FaRegCopy } from "react-icons/fa6";
 
@@ -7,7 +8,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { formatTag } from "@/lib/utils";
+import { formatDate, formatTag } from "@/lib/utils";
 import { DefaultSessionId, PromptProps } from "@/utils/types";
 import { Button } from "./ui/button";
 
@@ -30,6 +31,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
     prompt,
     tag,
     _id: promptId,
+    date,
   } = promptContent;
 
   const { data: session } = useSession();
@@ -100,7 +102,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
       <p className="my-6 text-base font-inter">{prompt}</p>
 
       <div>
-        {/* <p className="text-sm text-slate-400">Mar 9, 2024</p> */}
+        <p className="text-sm text-slate-400">{formatDate(date)}</p>
         <p className="dark:text-sky-400 text-sky-600 inline-block text-sm cursor-pointer">
           {formatTag(tag).map((t, index) => {
             return (

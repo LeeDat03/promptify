@@ -21,4 +21,5 @@ export interface PromptProps {
   creator: User;
   prompt: string;
   tag: string;
+  date: Date;
 }
