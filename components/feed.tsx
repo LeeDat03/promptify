@@ -1,7 +1,7 @@
 "use client";
 
 import qs from "query-string";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,6 +9,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PromptCardList from "./promt-card-list";
 import { PromptProps } from "@/utils/types";
 import SkeletonCardList from "./loading/skeleton-card-list";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchPrompts = (searchValue?: string): Promise<PromptProps[]> => {
+  if (!searchValue) {
+    return fetch("/api/prompt").then((res) => res.json());
+  }
+
+  return fetch(`/api/prompt?search=${searchValue}`).then((res) => res.json());
+};
 
 const Feed = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -18,8 +27,11 @@ const Feed = () => {
 
   const router = useRouter();
 
-  const [prompts, setPrompts] = useState<PromptProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { data: prompts, isLoading } = useQuery({
+    queryKey: ["prompt", searchValue],
+    queryFn: () => fetchPrompts(searchValue || ""),
+    refetchInterval: 60000,
+  });
 
   // CHANGE URL
   useEffect(() => {
@@ -30,32 +42,15 @@ const Feed = () => {
         skipNull: true,
       }
     );
-    router.push(url);
+    router.push(url, { scroll: false });
   }, [deboucedValue, router]);
-
-  // FETCH PROMPTS
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setIsLoading(true);
-
-      let res;
-      if (!searchValue) {
-        res = await fetch("/api/prompt");
-      } else {
-        res = await fetch(`/api/prompt?search=${searchValue}`);
-      }
-
-      const data = await res.json();
-
-      setPrompts(data);
-      setIsLoading(false);
-    };
-
-    fetchPosts();
-  }, [searchValue]);
 
   const handleSearchText = (value: string) => {
     setSearchText(value);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   if (isLoading) {
@@ -64,7 +59,10 @@ const Feed = () => {
 
   return (
     <section className="flex flex-col justify-center items-center md:gap-20 gap-12">
-      <form className="flex justify-center items-center w-full md:w-3/5 mx-auto">
+      <form
+        className="flex justify-center items-center w-full md:w-3/5 mx-auto"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           placeholder="Search for a tag or some keywords..."
@@ -76,7 +74,7 @@ const Feed = () => {
       </form>
 
       <PromptCardList
-        prompts={prompts}
+        prompts={prompts || []}
         isLoading={isLoading}
         onChangeSearchText={handleSearchText}
       />

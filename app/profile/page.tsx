@@ -1,53 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { DefaultSessionId, PromptProps } from "@/utils/types";
+import { DefaultSessionId } from "@/utils/types";
 import Profile from "@/components/profile";
 import { toast } from "@/components/ui/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPromptById } from "@/utils/promptsAPI";
 
 const MyProfile = () => {
-  const [prompts, setPrompts] = useState<PromptProps[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { data: session } = useSession();
+
+  const { data: prompts, isLoading } = useQuery({
+    queryKey: ["prompt", (session as DefaultSessionId)?.user.id],
+    queryFn: () => fetchPromptById((session as DefaultSessionId)?.user.id),
+  });
 
   useEffect(() => {
     if (!session) {
       router.push("/");
     }
   }, [session, router]);
-
-  useEffect(() => {
-    let isMounted = true; // Flag to track component mount status
-
-    const fetchPromptById = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch(
-          `/api/users/${(session as DefaultSessionId)?.user.id}/post`
-        );
-        const data = await res.json();
-        if (isMounted) {
-          setPrompts(data);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      }
-    };
-
-    if (session?.user && prompts.length === 0) {
-      fetchPromptById();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [session, prompts]);
 
   const handleCardEdit = (id: string) => {
     router.push(`/update-post?id=${id}`);
@@ -68,8 +44,6 @@ const MyProfile = () => {
         description: "Prompt deleted!",
         variant: "success",
       });
-      const filterPrompt = prompts.filter((prompt) => prompt._id !== id);
-      setPrompts(filterPrompt);
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +53,7 @@ const MyProfile = () => {
     <Profile
       name={`Hello, ${(session as DefaultSessionId)?.user.name}`}
       desc="Welcome back to your personalized profile page!"
-      prompts={prompts}
+      prompts={prompts || []}
       isLoading={isLoading}
       onCardEdit={handleCardEdit}
       onCardDelete={handleCardDelete}
