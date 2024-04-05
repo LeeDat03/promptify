@@ -8,9 +8,9 @@ export const GET = async (
 ) => {
   try {
     await connectToDB();
-    const userPrompt = await Prompt.find({ creator: params.id }).populate(
-      "creator"
-    );
+    const userPrompt = await Prompt.find({ creator: params.id })
+      .populate("creator")
+      .sort({ date: -1 });
 
     if (userPrompt.length === 0) {
       return new Response("No prompt found!", { status: 404 });

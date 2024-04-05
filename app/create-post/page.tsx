@@ -1,7 +1,6 @@
 "use client";
 
 import { z } from "zod";
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -10,6 +9,7 @@ import { FormSchema } from "@/models/form";
 import { DefaultSessionId } from "@/utils/types";
 import { toast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { createPrompt } from "@/utils/promptsAPI";
 
 const CreatePrompt = () => {
   const { data: session } = useSession();
@@ -17,27 +17,15 @@ const CreatePrompt = () => {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: async (data: z.infer<typeof FormSchema>) => {
-      const response = await fetch("/api/prompt/new", {
-        method: "POST",
-        body: JSON.stringify({
-          prompt: data.prompt,
-          tag: data.tag,
-          userId: (session as DefaultSessionId)?.user?.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create prompt");
-      }
-
-      return response.json();
-    },
+    mutationFn: async ({
+      data,
+      userId,
+    }: {
+      data: z.infer<typeof FormSchema>;
+      userId?: string;
+    }) => createPrompt(data, userId as string),
     onError: (error: any) => {
       console.error(error);
-      toast({
-        description: "Failed to create prompt",
-      });
     },
     onSuccess: () => {
       toast({
@@ -50,7 +38,10 @@ const CreatePrompt = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      await mutation.mutateAsync(data);
+      await mutation.mutateAsync({
+        data,
+        userId: (session as DefaultSessionId)?.user.id,
+      });
     } catch (err) {
       console.log(err);
     }

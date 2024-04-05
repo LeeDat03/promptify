@@ -1,62 +1,54 @@
 "use client";
 
 import { z } from "zod";
-import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import FormPrompt from "@/components/form-prompt";
 import { FormSchema } from "@/models/form";
 import { toast } from "@/components/ui/use-toast";
 import Spinner from "@/components/loading/spinner";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getPromptById, updatePromptById } from "@/utils/promptsAPI";
 
 const EditPrompt = () => {
   const promptId = useSearchParams().get("id");
 
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [submitting, setSubmitting] = useState<boolean | undefined>(false);
-  const [curPrompt, setCurPrompt] = useState<z.infer<typeof FormSchema>>({
-    prompt: "",
-    tag: "",
+  const {
+    data: curPrompt,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["prompt", promptId],
+    queryFn: () => getPromptById(promptId as string),
   });
 
-  useEffect(() => {
-    const fetchPromptById = async () => {
-      setIsLoading(true);
-      const res = await fetch(`/api/prompt/${promptId}`);
-      const data = await res.json();
-      setCurPrompt(data);
-      setIsLoading(false);
-    };
-
-    if (promptId) {
-      fetchPromptById();
-    }
-  }, [promptId]);
+  const mutation = useMutation({
+    mutationFn: async ({
+      data,
+      promptId,
+    }: {
+      data: z.infer<typeof FormSchema>;
+      promptId?: string;
+    }) => updatePromptById(data, promptId as string),
+    onError: (error: any) => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      toast({
+        description: "Prompt created successfully!",
+        variant: "success",
+      });
+      router.push("/profile");
+    },
+  });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    setSubmitting(true);
     try {
-      const respone = await fetch(`/api/prompt/${promptId}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          prompt: data.prompt,
-          tag: data.tag,
-        }),
-      });
-
-      if (respone.ok) {
-        toast({
-          description: "Prompt edited successfully!",
-          variant: "success",
-        });
-        router.push("/");
-      }
+      await mutation.mutateAsync({ data, promptId: promptId as string });
     } catch (err) {
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+      console.log(err);
     }
   };
 
@@ -64,9 +56,13 @@ const EditPrompt = () => {
     return <Spinner />;
   }
 
+  if (error) {
+    return <p>Can not find prompt</p>;
+  }
+
   return (
     <FormPrompt
-      submitting={submitting}
+      submitting={mutation.isPending}
       onSubmit={onSubmit}
       type="Edit"
       curValue={curPrompt}

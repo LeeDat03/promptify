@@ -37,6 +37,7 @@ export const PATCH = async (
 
     curPrompt.prompt = prompt;
     curPrompt.tag = tag;
+    curPrompt.date = new Date();
     await curPrompt.save();
 
     return new Response(JSON.stringify(curPrompt), { status: 200 });

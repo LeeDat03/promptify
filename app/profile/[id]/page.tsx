@@ -5,7 +5,7 @@ import React from "react";
 
 import Profile from "@/components/profile";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPromptById } from "@/utils/promptsAPI";
+import { getPromptsByUserId } from "@/utils/promptsAPI";
 
 const UserProfile = () => {
   const pathname = usePathname();
@@ -14,8 +14,8 @@ const UserProfile = () => {
   const userId = pathname.split("/")[2];
 
   const { data: prompts, isLoading } = useQuery({
-    queryKey: ["prompt", userId],
-    queryFn: () => fetchPromptById(userId),
+    queryKey: ["user", userId],
+    queryFn: () => getPromptsByUserId(userId),
   });
 
   return (

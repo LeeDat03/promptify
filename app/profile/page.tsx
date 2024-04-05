@@ -7,16 +7,35 @@ import { useRouter } from "next/navigation";
 import { DefaultSessionId } from "@/utils/types";
 import Profile from "@/components/profile";
 import { toast } from "@/components/ui/use-toast";
-import { useQuery } from "@tanstack/react-query";
-import { fetchPromptById } from "@/utils/promptsAPI";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deletePromptById, getPromptsByUserId } from "@/utils/promptsAPI";
 
 const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { data: prompts, isLoading } = useQuery({
-    queryKey: ["prompt", (session as DefaultSessionId)?.user.id],
-    queryFn: () => fetchPromptById((session as DefaultSessionId)?.user.id),
+  const {
+    data: prompts,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["user", (session as DefaultSessionId)?.user.id],
+    queryFn: () => getPromptsByUserId((session as DefaultSessionId)?.user.id),
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (id: string) => deletePromptById(id),
+    onError: (error: any) => {
+      console.error(error);
+    },
+    onSuccess: async () => {
+      await refetch();
+      router.push("/profile");
+      toast({
+        description: "Prompt deleted!",
+        variant: "success",
+      });
+    },
   });
 
   useEffect(() => {
@@ -37,13 +56,7 @@ const MyProfile = () => {
     if (!hasConfirmed) return;
 
     try {
-      await fetch(`/api/prompt/${id}`, {
-        method: "DELETE",
-      });
-      toast({
-        description: "Prompt deleted!",
-        variant: "success",
-      });
+      await mutation.mutateAsync(id);
     } catch (err) {
       console.log(err);
     }

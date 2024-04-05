@@ -7,17 +7,10 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import PromptCardList from "./promt-card-list";
-import { PromptProps } from "@/utils/types";
 import SkeletonCardList from "./loading/skeleton-card-list";
 import { useQuery } from "@tanstack/react-query";
-
-const fetchPrompts = (searchValue?: string): Promise<PromptProps[]> => {
-  if (!searchValue) {
-    return fetch("/api/prompt").then((res) => res.json());
-  }
-
-  return fetch(`/api/prompt?search=${searchValue}`).then((res) => res.json());
-};
+import { getPrompts } from "@/utils/promptsAPI";
+import { REFETCH_INTERVAL_TIME } from "@/utils/constants";
 
 const Feed = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -29,8 +22,8 @@ const Feed = () => {
 
   const { data: prompts, isLoading } = useQuery({
     queryKey: ["prompt", searchValue],
-    queryFn: () => fetchPrompts(searchValue || ""),
-    refetchInterval: 60000,
+    queryFn: () => getPrompts(searchValue || ""),
+    refetchInterval: REFETCH_INTERVAL_TIME,
   });
 
   // CHANGE URL
