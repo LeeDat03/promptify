@@ -1,4 +1,5 @@
 import Prompt from "@/models/prompt";
+import { PAGE_SIZE } from "@/utils/constants";
 import { connectToDB } from "@/utils/db";
 import { NextRequest } from "next/server";
 

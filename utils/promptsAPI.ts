@@ -3,10 +3,6 @@ import { PromptProps } from "./types";
 import { FormSchema } from "@/models/form";
 
 export const getPrompts = (searchValue?: string): Promise<PromptProps[]> => {
-  if (!searchValue) {
-    return fetch("/api/prompt").then((res) => res.json());
-  }
-
   return fetch(`/api/prompt?search=${searchValue}`).then((res) => res.json());
 };
 

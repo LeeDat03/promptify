@@ -14,6 +14,7 @@ import { REFETCH_INTERVAL_TIME } from "@/utils/constants";
 
 const Feed = () => {
   const [searchText, setSearchText] = useState<string>("");
+
   let deboucedValue = useDebounce(searchText);
 
   const searchValue = useSearchParams().get("search");
