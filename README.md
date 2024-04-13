@@ -16,6 +16,7 @@ Welcome to Promptify, an application that allows users to store and share AI-gen
 
 - **Next.js:** Framework for building user interfaces with React.js.
 - **MongoDB:** NoSQL database for storing prompt data securely.
+- **React Query:** Library for real-time state update.
 - **NextAuth.js:** Library for implementing user authentication in Next.js applications.
 - **Shadcn:** Integration for enhanced prompt generation capabilities using AI.
 
@@ -51,6 +52,19 @@ To get started with Promptify, follow these steps:
 
 - Create a .env.local file in the root directory.
 - Add environment variables for MongoDB connection string, Shadcn API key, and any other required variables.
+- Sample .env config file
+
+```bash
+MONGODB_URI
+NEXTAUTH_URL
+NEXTAUTH_URL_INTERNAL
+NEXTAUTH_SECRET
+GITHUB_ID
+GITHUB_CLIENT_SECRET
+GOOGLE_ID
+GOOGLE_CLIENT_SECRET
+DEFAULT_LOGIN_REDIRECT
+```
 
 5. Start the development server:
 
